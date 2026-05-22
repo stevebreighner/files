@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local File Share</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Local File Share</h1>
+      <p>Drag files here to share with devices on your network.</p>
+    </header>
+
+    <section class="drop-zone" id="dropZone">
+      <div class="drop-zone__content">
+        <div class="drop-zone__icon">⬆</div>
+        <div class="drop-zone__title">Drop files to upload</div>
+        <div class="drop-zone__subtitle">or</div>
+        <button class="button" id="browseButton" type="button">Choose Files</button>
+        <input type="file" id="fileInput" multiple hidden />
+      </div>
+      <div class="drop-zone__status" id="status"></div>
+    </section>
+
+    <section class="files">
+      <div class="files__header">
+        <h2>Available Files</h2>
+        <button class="button button--ghost" id="refreshButton" type="button">Refresh</button>
+      </div>
+      <div class="files__list" id="fileList">
+        <div class="files__empty">No files yet.</div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

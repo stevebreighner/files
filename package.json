@@ -1,0 +1,13 @@
+{
+  "name": "file-share",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local LAN file sharing",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
