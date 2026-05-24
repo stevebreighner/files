@@ -11,7 +11,28 @@
     <header>
       <h1>Local File Share</h1>
       <p>Drag files here to share with devices on your network.</p>
+      <p class="header__url">Always at <a id="publicUrl" href="http://192.168.0.27:3001/">http://192.168.0.27:3001/</a></p>
     </header>
+
+    <section class="audio-player" id="audioPlayer" hidden>
+      <div class="audio-player__now">
+        <div class="audio-player__label">Now playing</div>
+        <div class="audio-player__track" id="playerTrack">—</div>
+      </div>
+      <div class="audio-player__transport">
+        <button class="audio-player__btn" id="playerPrev" type="button" title="Previous">⏮</button>
+        <button class="audio-player__btn audio-player__btn--primary" id="playerPlayPause" type="button" title="Play / Pause">▶</button>
+        <button class="audio-player__btn" id="playerNext" type="button" title="Next">⏭</button>
+      </div>
+      <div class="audio-player__progress">
+        <input class="audio-player__seek" id="playerSeek" type="range" min="0" max="100" value="0" step="0.1" />
+        <div class="audio-player__time" id="playerTime">0:00 / 0:00</div>
+      </div>
+      <div class="audio-player__volume">
+        <span class="audio-player__volume-icon" aria-hidden="true">🔊</span>
+        <input class="audio-player__volume-slider" id="playerVolume" type="range" min="0" max="100" value="100" />
+      </div>
+    </section>
 
     <section class="drop-zone" id="dropZone">
       <div class="drop-zone__content">
@@ -20,21 +41,45 @@
         <div class="drop-zone__subtitle">or</div>
         <button class="button" id="browseButton" type="button">Choose Files</button>
         <input type="file" id="fileInput" multiple hidden />
+        <div class="upload-rename">
+          <input
+            class="upload-rename__input"
+            id="uploadNameInput"
+            type="text"
+            placeholder="Filename (single file)"
+            autocomplete="off"
+          />
+          <span class="upload-rename__ext" id="uploadExtLabel"></span>
+        </div>
+        <button class="button" id="uploadButton" type="button">Upload</button>
       </div>
       <div class="drop-zone__status" id="status"></div>
     </section>
 
-    <section class="files">
-      <div class="files__header">
-        <h2>Available Files</h2>
-        <button class="button button--ghost" id="refreshButton" type="button">Refresh</button>
+    <section class="panels">
+      <div class="panel" id="otherFilesPanel">
+        <div class="panel__header">
+          <h2>Other Files</h2>
+          <button class="button button--ghost" id="refreshButton" type="button">Refresh</button>
+        </div>
+        <div class="panel__body" id="otherFilesList">
+          <div class="files__empty">No other files yet.</div>
+        </div>
       </div>
-      <div class="files__list" id="fileList">
-        <div class="files__empty">No files yet.</div>
-      </div>
+
+      <details class="music-library panel" id="musicLibraryPanel">
+        <summary class="music-library__summary">
+          <span class="music-library__title">Music Library</span>
+          <span class="music-library__meta" id="musicLibraryMeta"></span>
+        </summary>
+        <div class="panel__body">
+          <p class="files__hint" id="libraryHint">Expand an album with ▸ or click the album name to play it.</p>
+          <div id="musicLibraryList"></div>
+        </div>
+      </details>
     </section>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

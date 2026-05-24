@@ -1,0 +1,15 @@
+[Unit]
+Description=Local File Share (LAN file server)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/steveb/Desktop/file-share
+Environment=NODE_ENV=production
+ExecStart=/home/steveb/node-v20.20.0-linux-x64/bin/node server.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
