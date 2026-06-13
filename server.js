@@ -244,6 +244,81 @@ app.get(/^\/download\/(.+)$/, (req, res) => {
   fs.createReadStream(fullPath).pipe(res);
 });
 
+
+function listVideoFiles() {
+  const exts = new Set(['.mp4', '.mov', '.webm', '.mkv']);
+  const files = [];
+
+  for (const entry of fs.readdirSync(UPLOAD_DIR, { withFileTypes: true })) {
+    if (!entry.isFile()) continue;
+
+    const ext = path.extname(entry.name).toLowerCase();
+    if (!exts.has(ext)) continue;
+
+    files.push(entry.name);
+  }
+
+  return files.sort((a, b) => a.localeCompare(b));
+}
+
+app.get('/videos', (req, res) => {
+  const files = listVideoFiles();
+
+  const items = files.map(f => `
+    <li>
+      <a href="/video?file=${encodeURIComponent(f)}">${f}</a>
+    </li>
+  `).join('');
+
+  res.send(`
+    <html>
+      <head>
+        <title>Videos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body { font-family: sans-serif; background:#111; color:#eee; padding:20px; }
+          a { color:#6cf; text-decoration:none; }
+          li { margin:10px 0; }
+        </style>
+      </head>
+      <body>
+        <h2>🎬 Videos</h2>
+        <ul>${items}</ul>
+      </body>
+    </html>
+  `);
+});
+
+
+app.get('/video', (req, res) => {
+  const file = req.query.file;
+  if (!file) return res.send("No file specified");
+
+  const safe = path.basename(file);
+
+  const src = `/download/${encodeURIComponent(safe)}`;
+
+  res.send(`
+    <html>
+      <head>
+        <title>${safe}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body { margin:0; background:black; color:white; display:flex; flex-direction:column; align-items:center; }
+          video { width:100%; max-width:1000px; margin-top:20px; }
+          a { color:white; margin-top:10px; }
+        </style>
+      </head>
+      <body>
+        <a href="/videos">⬅ Back</a>
+        <video controls autoplay>
+          <source src="${src}">
+        </video>
+      </body>
+    </html>
+  `);
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`File share listening on port ${PORT}`);
   console.log(`Open on this machine: http://127.0.0.1:${PORT}`);
